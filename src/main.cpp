@@ -59,7 +59,12 @@ void REPL(){
             Value val = expr -> eval(global_env);
             if (val -> v_type == V_TERMINATE)
                 break;
-            val -> show(std :: cout); // value print
+            // Suppress printing of #<void> except for explicit (void) calls
+            if (val->v_type == V_VOID && !isExplicitVoidCall(expr)) {
+                // do not print
+            } else {
+                val -> show(std :: cout); // value print
+            }
         }
         catch (const RuntimeError &RE){
             // std :: cout << RE.message();

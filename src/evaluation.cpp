@@ -607,10 +607,11 @@ Value Lambda::eval(Assoc &env) {
 }
 
 Value Apply::eval(Assoc &e) {
-    if (rator->eval(e)->v_type != V_PROC) {throw RuntimeError("Attempt to apply a non-procedure");}
+    Value rator_val = rator->eval(e);
+    if (rator_val->v_type != V_PROC) {throw RuntimeError("Attempt to apply a non-procedure");}
 
-    //TODO: TO COMPLETE THE CLOSURE LOGIC
-    Procedure* clos_ptr = dynamic_cast<Procedure*>(rator->eval(e).get());
+    // Closure pointer
+    Procedure* clos_ptr = dynamic_cast<Procedure*>(rator_val.get());
     
     //TODO: TO COMPLETE THE ARGUMENT PARSER LOGIC
     std::vector<Value> args;
